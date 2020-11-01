@@ -3,7 +3,6 @@ package com.guichaguri.trackplayer.service.player;
 import android.content.Context;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
-import androidx.annotation.NonNull;
 import com.facebook.react.bridge.Promise;
 import com.google.android.exoplayer2.*;
 import com.google.android.exoplayer2.Player.EventListener;
@@ -73,7 +72,7 @@ public abstract class ExoPlayback<T extends Player> implements EventListener, Me
         queue.set(index, track);
 
         if(currentIndex == index)
-            manager.getMetadata().updateMetadata(this, track);
+            manager.getMetadata().updateMetadata(track);
     }
 
     public Track getCurrentTrack() {
@@ -231,7 +230,7 @@ public abstract class ExoPlayback<T extends Player> implements EventListener, Me
     }
 
     @Override
-    public void onTimelineChanged(@NonNull Timeline timeline, int reason) {
+    public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
         Log.d(Utils.LOG, "onTimelineChanged: " + reason);
 
         if((reason == Player.TIMELINE_CHANGE_REASON_PREPARED || reason == Player.TIMELINE_CHANGE_REASON_DYNAMIC) && !timeline.isEmpty()) {
@@ -263,7 +262,7 @@ public abstract class ExoPlayback<T extends Player> implements EventListener, Me
     }
 
     @Override
-    public void onTracksChanged(TrackGroupArray trackGroups, @NonNull TrackSelectionArray trackSelections) {
+    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
         for(int i = 0; i < trackGroups.length; i++) {
             // Loop through all track groups.
             // As for the current implementation, there should be only one
@@ -337,7 +336,7 @@ public abstract class ExoPlayback<T extends Player> implements EventListener, Me
     }
 
     @Override
-    public void onPlaybackParametersChanged(@NonNull PlaybackParameters playbackParameters) {
+    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
         // Speed or pitch changes
     }
 
@@ -418,7 +417,7 @@ public abstract class ExoPlayback<T extends Player> implements EventListener, Me
     }
 
     @Override
-    public void onMetadata(@NonNull Metadata metadata) {
+    public void onMetadata(Metadata metadata) {
         handleId3Metadata(metadata);
         handleIcyMetadata(metadata);
     }

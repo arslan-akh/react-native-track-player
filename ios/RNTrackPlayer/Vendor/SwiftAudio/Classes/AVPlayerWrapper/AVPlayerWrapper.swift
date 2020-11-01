@@ -133,12 +133,10 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     }
     
     func play() {
-        _playWhenReady = true
         avPlayer.play()
     }
     
     func pause() {
-        _playWhenReady = false
         avPlayer.pause()
     }
     
